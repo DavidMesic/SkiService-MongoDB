@@ -1,0 +1,13 @@
+@SkiServiceAPI_HostAddress = http://localhost:5081
+
+###
+
+POST @{{SkiServiceAPI_HostAddress}}/api/account/create
+Content-Type: application/json
+
+{
+    "Benutzername": "testuser",
+    "PasswortHash": "meinsehrgeheimespasswort",
+    "Email": "testuser@example.com",
+    "Telefon": "123456789"
+}

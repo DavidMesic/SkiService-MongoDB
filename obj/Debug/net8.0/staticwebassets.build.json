@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "70xnqOYuN30Ne0faG+pxvg+Etgr3nR0mnNbgFO7yJuo=",
+  "Source": "SkiServiceAPI",
+  "BasePath": "_content/SkiServiceAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
