@@ -2,8 +2,8 @@
 {
     public class AuftragDTO
     {
-        public int AuftragID { get; set; }
-        public int KundeID { get; set; }
+        public string AuftragID { get; set; }
+        public string KundeID { get; set; }
         public string Dienstleistung { get; set; }
         public int Priorität { get; set; }
         public string Status { get; set; }
