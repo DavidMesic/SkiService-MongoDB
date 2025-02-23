@@ -1,0 +1,82 @@
+
+footer {
+    background-color: #2a4d69;
+    padding: 20px 30px;
+    color: white;
+    text-align: center;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.2);
+}
+
+footer .footer-logo {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+footer .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    margin-bottom: 20px;
+}
+
+footer .footer-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+footer .footer-content p, 
+footer .footer-content a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+footer .footer-content a:hover {
+    background-color: #1e374e;
+    border-radius: 5px;
+    padding: 2px 5px;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+footer .copyright {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Responsive Design for Footer */
+@media (max-width: 1200px) {
+    footer {
+        padding: 15px 20px;
+    }
+    .footer-content {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Inhalt zentrieren */
+        gap: 20px;
+    }
+    .footer-content div {
+        width: 100%; /* Elemente nehmen die volle Breite */
+        text-align: center; /* Text zentrieren */
+        margin-bottom: 15px;
+    }
+    .footer-logo {
+        margin-bottom: 20px;
+    }
+    .copyright {
+        margin-top: 20px;
+    }
+}

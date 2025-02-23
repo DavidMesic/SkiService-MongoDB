@@ -1,0 +1,105 @@
+
+/* Allgemeines Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    line-height: 1.6;
+    background: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header-Angleichung */
+.title {
+    background: #2a4d69;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.title h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.title p {
+    font-size: 1.2rem;
+}
+
+/* Über-uns Content */
+.about-section {
+    background: white;
+    padding: 50px 20px;
+    text-align: center;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+}
+
+.about-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2a4d69;
+    font-weight: bold;
+}
+
+.about-section p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #555;
+    line-height: 1.8;
+}
+
+.about-section ul {
+    margin-top: 20px;
+    text-align: left;
+    padding-left: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-section ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #444;
+    position: relative;
+}
+
+.about-section ul li::before {
+    content: "✔";
+    color: #2a4d69;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Footer-Angleichung */
+.footer {
+    background: #2a4d69;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 30px 15px;
+    }
+    .about-section h2 {
+        font-size: 1.8rem;
+    }
+    .about-section p, .about-section ul li {
+        font-size: 1rem;
+    }
+}
