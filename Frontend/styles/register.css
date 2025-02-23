@@ -1,0 +1,99 @@
+/* Grundlegendes Styling */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f3f3;
+}
+
+
+
+#header, #footer {
+    flex-shrink: 0;
+}
+
+
+
+
+
+
+/* Form Styling */
+
+.registration-form {
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    width: 300px;
+    padding: 20px;
+
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.registration-form h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+
+
+.form-group button {
+    width: 100%;
+    padding: 10px;
+
+    font-size: 16px;
+    color: #fff;
+    background-color: #5c9ded;
+
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+
+.form-group button:hover {
+    background-color: #4a86cf;
+}
