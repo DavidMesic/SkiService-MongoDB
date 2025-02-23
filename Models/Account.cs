@@ -12,7 +12,7 @@ public class Account
     [Required]
     [MaxLength(50)]
     [BsonElement("username"), BsonRepresentation(MongoDB.Bson.BsonType.String)]
-    public string Benutzername { get; set; }
+    public string Username { get; set; }
 
     [Required]
     [MaxLength(100)]
@@ -21,14 +21,14 @@ public class Account
 
     [Required]
     [BsonElement("password"), BsonRepresentation(MongoDB.Bson.BsonType.String)]
-    public string PasswortHash { get; set; }
+    public string Password { get; set; }
 
     [MaxLength(20)]
     [BsonElement("phone"), BsonRepresentation(MongoDB.Bson.BsonType.String)]
-    public string Telefon { get; set; } = null;
+    public string Phone { get; set; } = null;
 
     [MaxLength(20)]
     [JsonIgnore]
     [BsonElement("role"), BsonRepresentation(MongoDB.Bson.BsonType.String)]
-    public string Rolle { get; set; } = "Kunde";
+    public string Role { get; set; } = "Kunde";
 }

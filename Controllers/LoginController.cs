@@ -52,9 +52,9 @@ namespace SkiServiceAPI.Controllers
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Benutzername),
+                new Claim(ClaimTypes.NameIdentifier, user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Rolle),
+                new Claim(ClaimTypes.Role, user.Role),
                 new Claim("AccountID", user.AccountID.ToString())  // AccountID als Claim hinzufügen
             };
 
@@ -75,7 +75,7 @@ namespace SkiServiceAPI.Controllers
 
             if (checkUser != null)
             {
-                bool checkPw = BCrypt.Net.BCrypt.Verify(login.Passwort, checkUser.PasswortHash);
+                bool checkPw = BCrypt.Net.BCrypt.Verify(login.Password, checkUser.Password);
                 if (checkPw)
                 {
                     return checkUser;

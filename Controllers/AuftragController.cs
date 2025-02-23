@@ -32,7 +32,7 @@ namespace SkiServiceAPI.Controllers
             }
 
             // Kunde überprüfen
-            var kunde = _accounts.Find(a => a.AccountID == auftrag.KundeID).FirstOrDefault();
+            var kunde = _accounts.Find(a => a.AccountID == auftrag.AccountID).FirstOrDefault();
             if (kunde == null)
             {
                 return BadRequest(new { message = "Kunde nicht gefunden!" });
@@ -58,7 +58,7 @@ namespace SkiServiceAPI.Controllers
         [Authorize(Roles = "Admin,Mitarbeiter")]
         public IActionResult Update(string id, [FromBody] Auftrag updatedAuftrag)
         {
-            var existingAuftrag = _auftraege.Find(a => a.AuftragID == id).FirstOrDefault();
+            var existingAuftrag = _auftraege.Find(a => a.OrderID == id).FirstOrDefault();
             if (existingAuftrag == null)
             {
                 return NotFound(new { message = "Auftrag nicht gefunden." });
@@ -66,12 +66,12 @@ namespace SkiServiceAPI.Controllers
 
             if (ModelState.IsValid)
             {
-                existingAuftrag.Dienstleistung = updatedAuftrag.Dienstleistung;
-                existingAuftrag.Priorität = updatedAuftrag.Priorität;
+                existingAuftrag.Service = updatedAuftrag.Service;
+                existingAuftrag.Priority = updatedAuftrag.Priority;
                 existingAuftrag.Status = updatedAuftrag.Status;
 
                 // Dokument in der Collection ersetzen
-                _auftraege.ReplaceOne(a => a.AuftragID == id, existingAuftrag);
+                _auftraege.ReplaceOne(a => a.OrderID == id, existingAuftrag);
                 return Ok(new { message = "Auftrag erfolgreich aktualisiert.", updatedAuftrag });
             }
 
@@ -83,13 +83,13 @@ namespace SkiServiceAPI.Controllers
         [Authorize(Roles = "Admin,Mitarbeiter")]
         public IActionResult Delete(string id)
         {
-            var auftrag = _auftraege.Find(a => a.AuftragID == id).FirstOrDefault();
+            var auftrag = _auftraege.Find(a => a.OrderID == id).FirstOrDefault();
             if (auftrag == null)
             {
                 return NotFound(new { message = "Auftrag nicht gefunden." });
             }
 
-            var result = _auftraege.DeleteOne(a => a.AuftragID == id);
+            var result = _auftraege.DeleteOne(a => a.OrderID == id);
             return Ok(new { message = "Auftrag erfolgreich gelöscht." });
         }
 
@@ -97,15 +97,15 @@ namespace SkiServiceAPI.Controllers
         public IActionResult GetById(string id)
         {
             var auftrag = _auftraege
-                .Find(a => a.AuftragID == id)
+                .Find(a => a.OrderID == id)
                 .Project(a => new AuftragDTO
                 {
-                    AuftragID = a.AuftragID,
-                    KundeID = a.KundeID,
-                    Dienstleistung = a.Dienstleistung,
-                    Priorität = a.Priorität,
+                    OrderID = a.OrderID,
+                    AccountID = a.AccountID,
+                    Service = a.Service,
+                    Priority = a.Priority,
                     Status = a.Status,
-                    ErstelltAm = a.ErstelltAm
+                    CreatetAt = a.CreatetAt
                 })
                 .FirstOrDefault();
 

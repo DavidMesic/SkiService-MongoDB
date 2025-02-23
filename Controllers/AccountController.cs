@@ -24,7 +24,7 @@ namespace SkiServiceAPI.Controllers
         public IActionResult Create([FromBody] Account account)
         {
             // Prüfe, ob der Benutzername bereits existiert
-            if (_accounts.Find(a => a.Benutzername == account.Benutzername).Any())
+            if (_accounts.Find(a => a.Username == account.Username).Any())
             {
                 return BadRequest(new { message = "Benutzername existiert bereits" });
             }
@@ -36,9 +36,9 @@ namespace SkiServiceAPI.Controllers
             }
 
             // Passwort prüfen und hashen
-            if (!string.IsNullOrEmpty(account.PasswortHash))
+            if (!string.IsNullOrEmpty(account.Password))
             {
-                account.PasswortHash = BCrypt.Net.BCrypt.HashPassword(account.PasswortHash);
+                account.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
             }
             else
             {

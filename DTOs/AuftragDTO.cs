@@ -2,12 +2,12 @@
 {
     public class AuftragDTO
     {
-        public string AuftragID { get; set; }
-        public string KundeID { get; set; }
-        public string Dienstleistung { get; set; }
-        public int Priorität { get; set; }
+        public string OrderID { get; set; }
+        public string AccountID { get; set; }
+        public string Service { get; set; }
+        public int Priority { get; set; }
         public string Status { get; set; }
-        public DateTime ErstelltAm { get; set; }
+        public DateTime CreatetAt { get; set; }
     }
 
 }
