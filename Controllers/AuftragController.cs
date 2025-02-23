@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SkiServiceAPI.DTOs;
 using SkiServiceAPI.Models;
+using MongoDB.Driver;
+using SkiServiceAPI.Services;
 
 namespace SkiServiceAPI.Controllers
 {
@@ -10,12 +12,15 @@ namespace SkiServiceAPI.Controllers
     public class AuftragController : ControllerBase
     {
         private readonly ILogger<AuftragController> _logger;
-        private readonly SkiServiceContext _context;
+        private readonly IMongoCollection<Auftrag> _auftraege;
+        private readonly IMongoCollection<Account> _accounts;
 
-        public AuftragController(ILogger<AuftragController> logger, SkiServiceContext context)
+        public AuftragController(ILogger<AuftragController> logger, MongoDbService mongoDbService)
         {
             _logger = logger;
-            _context = context;
+
+            _auftraege = mongoDbService.Database.GetCollection<Auftrag>("auftrag");
+            _accounts = mongoDbService.Database.GetCollection<Account>("account");
         }
 
         [HttpPost("create")]
@@ -27,7 +32,7 @@ namespace SkiServiceAPI.Controllers
             }
 
             // Kunde überprüfen
-            var kunde = _context.Accounts.FirstOrDefault(a => a.AccountID == auftrag.KundeID);
+            var kunde = _accounts.Find(a => a.AccountID == auftrag.KundeID).FirstOrDefault();
             if (kunde == null)
             {
                 return BadRequest(new { message = "Kunde nicht gefunden!" });
@@ -43,18 +48,17 @@ namespace SkiServiceAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Aufträge.Add(auftrag);
-            _context.SaveChanges();
+            // Auftrag in die MongoDB Collection einfügen
+            _auftraege.InsertOne(auftrag);
             return Ok(new { message = "Auftrag erfolgreich erstellt!", auftrag });
         }
-
 
         // PUT: api/auftrag/update/{id}
         [HttpPut("update/{id}")]
         [Authorize(Roles = "Admin,Mitarbeiter")]
-        public IActionResult Update(int id, [FromBody] Auftrag updatedAuftrag)
+        public IActionResult Update(string id, [FromBody] Auftrag updatedAuftrag)
         {
-            var existingAuftrag = _context.Aufträge.FirstOrDefault(a => a.AuftragID == id);
+            var existingAuftrag = _auftraege.Find(a => a.AuftragID == id).FirstOrDefault();
             if (existingAuftrag == null)
             {
                 return NotFound(new { message = "Auftrag nicht gefunden." });
@@ -66,7 +70,8 @@ namespace SkiServiceAPI.Controllers
                 existingAuftrag.Priorität = updatedAuftrag.Priorität;
                 existingAuftrag.Status = updatedAuftrag.Status;
 
-                _context.SaveChanges();
+                // Dokument in der Collection ersetzen
+                _auftraege.ReplaceOne(a => a.AuftragID == id, existingAuftrag);
                 return Ok(new { message = "Auftrag erfolgreich aktualisiert.", updatedAuftrag });
             }
 
@@ -76,24 +81,24 @@ namespace SkiServiceAPI.Controllers
         // DELETE: api/auftrag/delete/{id}
         [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin,Mitarbeiter")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
-            var auftrag = _context.Aufträge.FirstOrDefault(a => a.AuftragID == id);
+            var auftrag = _auftraege.Find(a => a.AuftragID == id).FirstOrDefault();
             if (auftrag == null)
             {
                 return NotFound(new { message = "Auftrag nicht gefunden." });
             }
 
-            _context.Aufträge.Remove(auftrag);
-            _context.SaveChanges();
+            var result = _auftraege.DeleteOne(a => a.AuftragID == id);
             return Ok(new { message = "Auftrag erfolgreich gelöscht." });
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
-            var auftrag = _context.Aufträge
-                .Select(a => new AuftragDTO
+            var auftrag = _auftraege
+                .Find(a => a.AuftragID == id)
+                .Project(a => new AuftragDTO
                 {
                     AuftragID = a.AuftragID,
                     KundeID = a.KundeID,
@@ -102,7 +107,7 @@ namespace SkiServiceAPI.Controllers
                     Status = a.Status,
                     ErstelltAm = a.ErstelltAm
                 })
-                .FirstOrDefault(a => a.AuftragID == id);
+                .FirstOrDefault();
 
             if (auftrag == null)
             {
