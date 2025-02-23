@@ -6,6 +6,8 @@ using SkiServiceAPI.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MongoDB.Driver;
+using SkiServiceAPI.Services;
 
 namespace SkiServiceAPI.Controllers
 {
@@ -14,22 +16,21 @@ namespace SkiServiceAPI.Controllers
     public class LoginController : ControllerBase
     {
         private readonly ILogger<LoginController> _logger;
-        private readonly SkiServiceContext _context;
-
+        private readonly IMongoCollection<Account> _accounts;
         private readonly IConfiguration _config;
 
-        public LoginController(ILogger<LoginController> logger, SkiServiceContext context, IConfiguration config)
+        public LoginController(ILogger<LoginController> logger, MongoDbService mongoDbService, IConfiguration config)
         {
             _logger = logger;
-            _context = context;
+
+            _accounts = mongoDbService.Database.GetCollection<Account>("account");
+
             _config = config;
         }
 
-
-
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody] AccountLogin accountLogin)
+        public IActionResult Login([FromBody] Login accountLogin)
         {
             var user = Authenticate(accountLogin);
 
@@ -44,8 +45,6 @@ namespace SkiServiceAPI.Controllers
             return NotFound(new { message = "Account nicht gefunden" });
         }
 
-
-
         private string Generate(Account user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -53,11 +52,11 @@ namespace SkiServiceAPI.Controllers
 
             var claims = new[]
             {
-        new Claim(ClaimTypes.NameIdentifier, user.Benutzername),
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.Role, user.Rolle),
-        new Claim("AccountID", user.AccountID.ToString())  // AccountID als Claim hinzufügen
-    };
+                new Claim(ClaimTypes.NameIdentifier, user.Benutzername),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Rolle),
+                new Claim("AccountID", user.AccountID.ToString())  // AccountID als Claim hinzufügen
+            };
 
             var token = new JwtSecurityToken(
                 _config["Jwt:Issuer"],
@@ -70,16 +69,13 @@ namespace SkiServiceAPI.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
-
-        private Account Authenticate(AccountLogin accountLogin)
+        private Account Authenticate(Login login)
         {
-            var checkUser = _context.Accounts.FirstOrDefault(a => a.Email == accountLogin.Email);
+            var checkUser = _accounts.Find(a => a.Email == login.Email).FirstOrDefault();
 
             if (checkUser != null)
             {
-                bool checkPw = BCrypt.Net.BCrypt.Verify(accountLogin.PasswortHash, checkUser.PasswortHash);
-
+                bool checkPw = BCrypt.Net.BCrypt.Verify(login.Passwort, checkUser.PasswortHash);
                 if (checkPw)
                 {
                     return checkUser;
