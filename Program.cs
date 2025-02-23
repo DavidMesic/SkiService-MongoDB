@@ -1,8 +1,7 @@
-using SkiServiceAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Serilog;
+using System.Text;
 using SkiServiceAPI.Services;
 
 namespace SkiServiceAPI
@@ -13,19 +12,13 @@ namespace SkiServiceAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
-
             // Seri Logger mit appsettings.json Konfiguration
             var loggerFromSettings = new LoggerConfiguration()
-              .ReadFrom.Configuration(builder.Configuration)
-              .Enrich.FromLogContext()
-              .CreateLogger();
-
-
+                .ReadFrom.Configuration(builder.Configuration)
+                .Enrich.FromLogContext()
+                .CreateLogger();
 
             // Add services to the container.
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -60,8 +53,6 @@ namespace SkiServiceAPI
                 });
             });
 
-
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -72,16 +63,10 @@ namespace SkiServiceAPI
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
-
             app.UseAuthorization();
-
             app.UseCors("AllowAll");
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
