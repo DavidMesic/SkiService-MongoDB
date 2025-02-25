@@ -1,0 +1,195 @@
+{
+	"info": {
+		"_postman_id": "a3bbc262-a98d-41bc-98e1-c4cfa1becf6d",
+		"name": "SkiService-MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39565588"
+	},
+	"item": [
+		{
+			"name": "Account - Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"accountID\": null,\r\n  \"username\": \"testuser\",\r\n  \"email\": \"testuser@email.com\",\r\n  \"password\": \"testuser\",\r\n  \"phone\": \"+41123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7290/api/Account/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Account",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account - Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"testuser@email.com\",\r\n  \"password\": \"testuser\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7290/api/Login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order - Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"orderID\": null,\r\n  \"accountID\": null,\r\n  \"service\": \"small_service\",\r\n  \"priority\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7290/api/Auftrag/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Auftrag",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order - GetById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7290/api/Auftrag/{id}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Auftrag",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order - Put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"service\": \"big_service\",\r\n  \"priority\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7290/api/Auftrag/update/{id}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Auftrag",
+						"update",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7290/api/Auftrag/delete/{id}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Auftrag",
+						"delete",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7290/api/Account/delete/{id}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7290",
+					"path": [
+						"api",
+						"Account",
+						"delete",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
